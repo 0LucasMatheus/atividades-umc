@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <title>Projeto 5</title>
+
+  <!-- Carrega o CSS da pasta /static -->
+  <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+
+<body>
+  <!-- Topo: sensor + exibição da distância -->
+  <div class="top-bar">
+    <div class="sensor-box">
+
+      <img id="imagemSensor" src="/static/img/distancia.png" alt="Sensor">
+      <img
+  id="motionIcon" src="/static/img/distancia.png" alt="TA MOVIMENTANDO!" style="display: none;"/>
+
+      <div class="distance-text">
+        <span class="label">distancia do mouse pro sensor</span>
+        <span class="value"><span id="valorDistancia">0</span> px</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Seção: controles e exibição da temperatura -->
+  <div class="temp-zone">
+    <button id="botaoTempAumentar" class="temp-btn">+30</button>
+
+    <div class="temp-display">
+      <div class="temp-label">Temperatura</div>
+      <div class="temp-value"><span id="saidaTemperatura">0</span></div>
+    </div>
+
+    <button id="botaoTempDiminuir" class="temp-btn">-30</button>
+  </div>
+
+  <!-- Carrega o JS da pasta /static -->
+  <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+</body>
+</html>

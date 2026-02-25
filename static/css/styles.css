@@ -1,0 +1,131 @@
+/* Estilo global do corpo da página */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 24px;
+}
+
+/* Estilo da barra superior onde fica o sensor */
+.top-bar {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+  margin-bottom: 30px;
+}
+
+/* Caixa que agrupa a imagem do sensor e o texto da distância */
+.sensor-box {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 16px;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  background: #fafafa;
+}
+
+/* Estilo da imagem do sensor */
+#imagemSensor {
+  width: 84px;
+  height: 84px;
+  object-fit: contain;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+/* Container do texto de distância */
+.distance-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+/* Rótulo da distância */
+.distance-text .label {
+  font-size: 12px;
+  color: #666;
+}
+
+/* Valor numérico da distância */
+.distance-text .value {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+/* Seção genérica de conteúdo */
+.section {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 14px 16px;
+  border: 1px solid #eee;
+  border-radius: 12px;
+}
+
+/* Linha genérica de espaçamento */
+.row {
+  margin: 12px 0;
+}
+
+/* Estilo padrão do input range */
+input[type="range"] {
+  width: 100%;
+}
+
+/* Área principal de controle da temperatura */
+.temp-zone {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 18px 16px;
+
+  border: 1px solid #eee;
+  border-radius: 12px;
+  background: #fff;
+}
+
+/* Botões de controle da temperatura */
+.temp-btn {
+  width: 140px;
+  height: 70px;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  background: #f6f6f6;
+  font-size: 22px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* Efeito visual ao clicar no botão */
+.temp-btn:active {
+  transform: scale(0.98);
+}
+
+/* Área central onde a temperatura é exibida */
+.temp-display {
+  text-align: center;
+  flex: 1;
+}
+
+/* Rótulo da temperatura */
+.temp-label {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 6px;
+}
+
+/* Valor numérico da temperatura */
+.temp-value {
+  font-size: 44px;
+  font-weight: bold;
+}
+
+/* sensor de movimento */
+#motionIcon {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+}
