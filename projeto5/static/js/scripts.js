@@ -5,6 +5,19 @@ const sensor = document.getElementById("sensor");
 const sensorMovimento = document.getElementById("sensorMovimento"); 
 const pot = document.getElementById("pot");
 
+//função para atualizar a cor da barra de acordo com o valor do potenciômetro
+function atualizarCorBarra(valor) {
+  const porcentagem = (valor - pot.min) / (pot.max - pot.min) * 100;
+  
+  //Transição de vermelho para o azul
+  const r = Math.round(255 - (valor / 100) * 255);
+  const g = 0;
+  const b = Math.round((valor / 100) * 255);
+
+  const cor = `rgb(${r}, ${g}, ${b})`;
+  pot.style.background = `linear-gradient(to right, ${cor} ${porcentagem}%, #ddd ${porcentagem}%)`;
+}
+
 let cx = 0, cy = 0, ultimo = 0;
 let mouseMoveTimeout; 
 
@@ -35,9 +48,14 @@ function atualizarCentro() {
 document.getElementById("subir").onclick = () => post("/ajustar_temperatura", {direcao: "subir"});
 document.getElementById("descer").onclick = () => post("/ajustar_temperatura", {direcao: "descer"});
 
+// Atualiza a sensibilidade em tempo real e envia o novo valor para o servidor
 pot.oninput = e => {
-  passo.textContent = e.target.value;
-  post("/ajustar_sensibilidade", {passo: parseInt(e.target.value)});
+  const valor = parseInt(e.target.value);
+
+  passo.textContent = valor;
+  atualizarCorBarra(valor);
+
+  post("/ajustar_sensibilidade", {passo: valor});
 };
 
 document.onmousemove = e => {
@@ -64,3 +82,4 @@ sensor.onload = window.onresize = atualizarCentro;
 atualizarCentro();
 buscarTemp();
 setInterval(buscarTemp, 200);
+atualizarCorBarra(pot.value);
