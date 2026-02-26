@@ -1,42 +1,33 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8" />
-  <title>Projeto 5</title>
-
-  <!-- Carrega o CSS da pasta /static -->
+  <meta charset="UTF-8">
+  <title>Controle de Temperatura</title>
   <link rel="stylesheet" href="/static/css/styles.css">
 </head>
-
 <body>
-  <!-- Topo: sensor + exibição da distância -->
-  <div class="top-bar">
-    <div class="sensor-box">
-
-      <img id="imagemSensor" src="/static/img/distancia.png" alt="Sensor">
-      <img
-  id="motionIcon" src="/static/img/distancia.png" alt="TA MOVIMENTANDO!" style="display: none;"/>
-
-      <div class="distance-text">
-        <span class="label">distancia do mouse pro sensor</span>
-        <span class="value"><span id="valorDistancia">0</span> px</span>
-      </div>
+  <div class="container">
+    <img id="sensor" src="/static/img/distancia.png" alt="Sensor">
+    <div>
+      <small>Distância do mouse ao sensor</small>
+      <div><b id="distancia">0</b> px</div>
     </div>
   </div>
 
-  <!-- Seção: controles e exibição da temperatura -->
-  <div class="temp-zone">
-    <button id="botaoTempAumentar" class="temp-btn">+30</button>
-
-    <div class="temp-display">
-      <div class="temp-label">Temperatura</div>
-      <div class="temp-value"><span id="saidaTemperatura">0</span></div>
+  <div class="container">
+    <button id="subir">▲</button>
+    <div>
+      <small>Temperatura</small>
+      <div class="grande"><b id="temp">0</b>°</div>
     </div>
-
-    <button id="botaoTempDiminuir" class="temp-btn">-30</button>
+    <button id="descer">▼</button>
   </div>
 
-  <!-- Carrega o JS da pasta /static -->
-  <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+  <div class="container">
+    <div>Sensibilidade: <b id="passo">30</b>°</div>
+    <input type="range" id="pot" min="1" max="100" value="30">
+  </div>
+
+  <script src="/static/js/scripts.js"></script>
 </body>
 </html>

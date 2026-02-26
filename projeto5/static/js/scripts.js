@@ -1,88 +1,51 @@
-// -------------------------------
-// Controles de temperatura + atualização periódica via servidor
-// -------------------------------
-const saidaTemperatura = document.getElementById("saidaTemperatura");
-const botaoTempAumentar = document.getElementById("botaoTempAumentar");
-const botaoTempDiminuir = document.getElementById("botaoTempDiminuir");
+const temp = document.getElementById("temp");
+const distancia = document.getElementById("distancia");
+const passo = document.getElementById("passo");
+const sensor = document.getElementById("sensor");
+const pot = document.getElementById("pot");
 
-function definirTemperaturaNaTela(valor) {
-  saidaTemperatura.textContent = String(valor);
-}
+let cx = 0, cy = 0, ultimo = 0;
 
-function buscarTemperatura() {
-  fetch("/temperatura")
-    .then(resposta => resposta.json())
-    .then(dados => {
-      definirTemperaturaNaTela(dados.temperatura);
-    });
-}
-
-function alterarTemperaturaEmPasso(direcao) {
-  fetch("/passo_temperatura", {
+function post(url, dados) {
+  fetch(url, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ direction: direcao })
-  })
-    .then(resposta => resposta.json())
-    .then(dados => {
-      definirTemperaturaNaTela(dados.temperatura);
-    });
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify(dados)
+  }).then(r => r.json()).then(d => {
+    if (d.temperatura !== undefined) temp.textContent = d.temperatura;
+    if (d.distanciaPx !== undefined) distancia.textContent = d.distanciaPx;
+  });
 }
 
-botaoTempAumentar.addEventListener("click", function () {
-  alterarTemperaturaEmPasso("up");
-});
-
-botaoTempDiminuir.addEventListener("click", function () {
-  alterarTemperaturaEmPasso("down");
-});
-
-// Atualização periódica para voltar ao zero e continuar a luta entre Akainu e Aokiji
-buscarTemperatura();
-setInterval(buscarTemperatura, 200);
-
-
-// -------------------------------
-// Distância do mouse -> Flask (/distancia_mouse)
-// -------------------------------
-const imagemSensor = document.getElementById("imagemSensor");
-const valorDistancia = document.getElementById("valorDistancia");
-
-let centroSensorX = 0;
-let centroSensorY = 0;
-
-function atualizarCentroSensor() {
-  const retangulo = imagemSensor.getBoundingClientRect();
-  centroSensorX = retangulo.left + (retangulo.width / 2);
-  centroSensorY = retangulo.top + (retangulo.height / 2);
+function buscarTemp() {
+  fetch("/temperatura").then(r => r.json()).then(d => {
+    temp.textContent = d.temperatura;
+    pot.value = passo.textContent = d.passo;
+  });
 }
 
-// Garante que o centro é calculado depois que a imagem carregar
-imagemSensor.addEventListener("load", atualizarCentroSensor);
+function atualizarCentro() {
+  const r = sensor.getBoundingClientRect();
+  cx = r.left + r.width / 2;
+  cy = r.top + r.height / 2;
+}
 
-atualizarCentroSensor();
-window.addEventListener("resize", atualizarCentroSensor);
+document.getElementById("subir").onclick = () => post("/ajustar_temperatura", {direcao: "subir"});
+document.getElementById("descer").onclick = () => post("/ajustar_temperatura", {direcao: "descer"});
 
-// Controle de frequência de requisicoes
-let ultimoEnvioMs = 0;
+pot.oninput = e => {
+  passo.textContent = e.target.value;
+  post("/ajustar_sensibilidade", {passo: parseInt(e.target.value)});
+};
 
-document.addEventListener("mousemove", function (evento) {
+document.onmousemove = e => {
   const agora = Date.now();
-  if (agora - ultimoEnvioMs < 50) return; // ~20 req/s
-  ultimoEnvioMs = agora;
+  if (agora - ultimo < 50) return;
+  ultimo = agora;
+  post("/distancia_mouse", {mouseX: e.clientX, mouseY: e.clientY, sensorX: cx, sensorY: cy});
+};
 
-  fetch("/distancia_mouse", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      mouseX: evento.clientX,
-      mouseY: evento.clientY,
-      sensorX: centroSensorX,
-      sensorY: centroSensorY
-    })
-  })
-    .then(resposta => resposta.json())
-    .then(dados => {
-      valorDistancia.textContent = dados.distanciaPx;
-    });
-});
+sensor.onload = window.onresize = atualizarCentro;
+atualizarCentro();
+buscarTemp();
+setInterval(buscarTemp, 200);
