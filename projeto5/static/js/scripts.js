@@ -4,6 +4,8 @@ const passo = document.getElementById("passo");
 const sensor = document.getElementById("sensor");
 const sensorMovimento = document.getElementById("sensorMovimento"); 
 const pot = document.getElementById("pot");
+const kizaTemp = document.getElementById("kizaTemp");
+const kizaDist = document.getElementById("kizaDist");
 
 let cx = 0, cy = 0, ultimo = 0;
 let mouseMoveTimeout; 
@@ -16,7 +18,8 @@ function post(url, dados) {
   }).then(r => r.json()).then(d => {
     if (d.temperatura !== undefined) temp.textContent = d.temperatura;
     if (d.distanciaPx !== undefined) distancia.textContent = d.distanciaPx;
-    if (d.temperatura !== undefined) updateKizaru(d.temperatura);   
+    if (d.temperatura !== undefined) kizaTempUpdate(d.temperatura);
+    if (d.distanciaPx !== undefined) kizaDistUpdate(d.distanciaPx);
   });
    
 
@@ -46,7 +49,7 @@ pot.oninput = e => {
 
 
 // Função para atualizar a cor da imagem do Kizaru com base na temperatura
-function updateKizaru(temperatureValue) {
+function kizaTempUpdate(temperatureValue) {
   const maxTemp = 200;
   const intensity = Math.min(1, Math.abs(temperatureValue) / maxTemp);
 
@@ -66,6 +69,21 @@ function updateKizaru(temperatureValue) {
   kizaTemp.style.filter = corKizaTemp;
 
 }
+
+// Função para atualizar a cor da imagem do Kizaru com base na distância
+function kizaDistUpdate(distanceValue) {
+  let effect;
+  if (distanceValue <= 0) {
+    effect = 1;          // muito perto → efeito máximo
+  } else if (distanceValue >= 300) {
+    effect = 0;          // muito longe → sem efeito
+  } else {
+    effect = 1 - (distanceValue / 300);
+  }
+
+  kizaDist.style.filter = `brightness(${1 + effect * 0.5}) grayscale(${effect})`;
+}
+
 
 document.onmousemove = e => {
   const agora = Date.now();
