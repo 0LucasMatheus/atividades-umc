@@ -4,9 +4,9 @@ body {
   padding: 20px;
   background: #f5f5f5;
   background-image: url("/static/img/background.png");
-  background-size: cover;        /* cobre toda a tela */
-  background-position: center;   /* centraliza */
-  background-repeat: no-repeat;  /* não repete */
+  background-size: cover;        
+  background-position: center;   
+  background-repeat: no-repeat;  
   height: 100vh;
 }
 
