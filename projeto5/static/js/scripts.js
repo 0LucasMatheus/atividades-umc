@@ -2,9 +2,11 @@ const temp = document.getElementById("temp");
 const distancia = document.getElementById("distancia");
 const passo = document.getElementById("passo");
 const sensor = document.getElementById("sensor");
+const sensorMovimento = document.getElementById("sensorMovimento"); 
 const pot = document.getElementById("pot");
 
 let cx = 0, cy = 0, ultimo = 0;
+let mouseMoveTimeout; 
 
 function post(url, dados) {
   fetch(url, {
@@ -42,8 +44,21 @@ document.onmousemove = e => {
   const agora = Date.now();
   if (agora - ultimo < 50) return;
   ultimo = agora;
+
+  // Mostra a imagem
+  sensorMovimento.style.display = 'block';
+  if (mouseMoveTimeout) {
+    clearTimeout(mouseMoveTimeout);
+  }
+  mouseMoveTimeout = setTimeout(() => {
+    sensorMovimento.style.display = 'none';
+  }, 500); // Esconde após 500ms sem movimento
+
   post("/distancia_mouse", {mouseX: e.clientX, mouseY: e.clientY, sensorX: cx, sensorY: cy});
 };
+
+// Começa com a imagem escondida
+sensorMovimento.style.display = 'none';
 
 sensor.onload = window.onresize = atualizarCentro;
 atualizarCentro();
