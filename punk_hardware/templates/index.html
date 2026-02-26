@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Controle de Temperatura</title>
+  <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+  <div class="container">
+    <img id="sensor" src="/static/img/distancia.png" alt="Sensor">
+    <div>
+      <small>Distância do mouse ao sensor</small>
+      <div><b id="distancia">0</b> px</div>
+    </div>
+    <img id="sensorMovimento" src="/static/img/movimento.png" alt="Movimento">
+  </div>
+
+  <div class="container">
+    <button id="subir">▲</button>
+    <div>
+      <div><img id="dht11" src="/static/img/dht11.png" alt="dht11"></div>
+      <small>Temperatura</small>
+      <div class="grande"><b id="temp">0</b>°</div>
+    </div>
+    <button id="descer">▼</button>
+  </div>
+
+  <div class="container">
+
+    <div><img id="potimg" src="/static/img/pot.png" alt="potimg"></div>
+    <div>Sensibilidade: <b id="passo">30</b>°</div>
+    <input type="range" id="pot" min="1" max="100" value="30">
+  </div>
+
+  <div class="container">
+    KizaLeds:
+      <img id="kizaTemp" src="/static/img/kizarurgb.png" alt="KizaLedTemp">
+      <img id="kizaDist" src="/static/img/kizaru.png" alt="KizaLedDist">
+      <img id="kizaMov" src="/static/img/kizaru.png" alt="KizaLedMov">
+  </div>
+
+  <script src="/static/js/scripts.js"></script>
+</body>
+</html>
