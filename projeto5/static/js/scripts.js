@@ -16,7 +16,10 @@ function post(url, dados) {
   }).then(r => r.json()).then(d => {
     if (d.temperatura !== undefined) temp.textContent = d.temperatura;
     if (d.distanciaPx !== undefined) distancia.textContent = d.distanciaPx;
+    if (d.temperatura !== undefined) updateKizaru(d.temperatura);   
   });
+   
+
 }
 
 function buscarTemp() {
@@ -39,6 +42,30 @@ pot.oninput = e => {
   passo.textContent = e.target.value;
   post("/ajustar_sensibilidade", {passo: parseInt(e.target.value)});
 };
+
+
+
+// Função para atualizar a cor da imagem do Kizaru com base na temperatura
+function updateKizaru(temperatureValue) {
+  const maxTemp = 200;
+  const intensity = Math.min(1, Math.abs(temperatureValue) / maxTemp);
+
+  let corKizaTemp = "none";
+
+  if (temperatureValue > 40) {
+    // Mais quente = vermelho
+    corKizaTemp = `sepia(${intensity}) hue-rotate(-30deg)`;
+  } else if (temperatureValue < -40) {
+    // Mais frio = azul
+    corKizaTemp = `sepia(${intensity}) hue-rotate(200deg)`;
+  } else {
+    // Temperatura ideal = normal
+    corKizaTemp = `sepia(${intensity})`;
+  }
+
+  kizaTemp.style.filter = corKizaTemp;
+
+}
 
 document.onmousemove = e => {
   const agora = Date.now();
