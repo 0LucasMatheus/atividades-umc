@@ -8,16 +8,17 @@ passo_temperatura = 30
 
 def aplicar_decaimento():
     global temperatura, ultima_atualizacao
+
     agora = int(time.time() * 1000)
-    ms = max(0, agora - ultima_atualizacao)
-    
-    if ms > 0 and temperatura != 0:
-        temperatura *= max(0, 1 - ms / 10000)
+    ms = agora - ultima_atualizacao
+
+    if ms > 0 and temperatura:
+        fator = max(0, 1 - ms / 10000)
+        temperatura *= fator
         if abs(temperatura) < 0.5:
             temperatura = 0.0
-    
+
     ultima_atualizacao = agora
-    return agora
 
 
 @app.route("/")
