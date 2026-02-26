@@ -6,6 +6,8 @@ const sensorMovimento = document.getElementById("sensorMovimento");
 const pot = document.getElementById("pot");
 const kizaTemp = document.getElementById("kizaTemp");
 const kizaDist = document.getElementById("kizaDist");
+const kizaMov = document.getElementById("kizaMov");
+
 
 let cx = 0, cy = 0, ultimo = 0;
 let mouseMoveTimeout; 
@@ -91,19 +93,19 @@ document.onmousemove = e => {
   ultimo = agora;
 
   // Mostra a imagem
-  sensorMovimento.style.display = 'block';
+  kizaMov.style.visibility = 'visible';
   if (mouseMoveTimeout) {
     clearTimeout(mouseMoveTimeout);
   }
   mouseMoveTimeout = setTimeout(() => {
-    sensorMovimento.style.display = 'none';
+    kizaMov.style.visibility = 'hidden';
   }, 500); // Esconde após 500ms sem movimento
 
   post("/distancia_mouse", {mouseX: e.clientX, mouseY: e.clientY, sensorX: cx, sensorY: cy});
 };
 
 // Começa com a imagem escondida
-sensorMovimento.style.display = 'none';
+kizaMov.style.visibility = 'hidden';
 
 sensor.onload = window.onresize = atualizarCentro;
 atualizarCentro();
