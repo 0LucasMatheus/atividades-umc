@@ -3,6 +3,11 @@ body {
   margin: 0;
   padding: 20px;
   background: #f5f5f5;
+  background-image: url("/static/img/background.png");
+  background-size: cover;        /* cobre toda a tela */
+  background-position: center;   /* centraliza */
+  background-repeat: no-repeat;  /* não repete */
+  height: 100vh;
 }
 
 .container {
