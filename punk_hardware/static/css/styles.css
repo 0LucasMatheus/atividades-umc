@@ -1,13 +1,29 @@
 body {
   font-family: Arial, sans-serif;
   margin: 0;
-  padding: 20px;
+  padding: 0;
   background: #f5f5f5;
-  background-image: url("/static/img/background.png");
-  background-size: cover;        
-  background-position: center;   
-  background-repeat: no-repeat;  
   height: 100vh;
+}
+
+.page-wrapper {
+  display: flex;
+  height: 100vh;
+}
+
+.content {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.image-panel {
+  width: 50%;
+  flex-shrink: 0;
+  background-image: url("/static/img/background.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .container {
