@@ -2,6 +2,7 @@ const temp = document.getElementById("temp");
 const distancia = document.getElementById("distancia");
 const passo = document.getElementById("passo");
 const sensor = document.getElementById("sensor");
+const imagePanel = document.getElementById("fundoPanel");
 const sensorMovimento = document.getElementById("sensorMovimento"); 
 const pot = document.getElementById("pot");
 const kizaTemp = document.getElementById("kizaTemp");
@@ -9,17 +10,12 @@ const kizaDist = document.getElementById("kizaDist");
 const kizaMov = document.getElementById("kizaMov");
 
 
-//função para atualizar a cor da barra de acordo com o valor do potenciômetro
+//função para atualizar a cor da barra de acordo com o valor do potenciômetro. NAO TA FUNCIONANDO NO MOMENTO!
 function atualizarCorBarra(valor) {
-  const porcentagem = (valor - pot.min) / (pot.max - pot.min) * 100;
-  
-  //Transição de vermelho para o azul
-  const r = Math.round(255 - (valor / 100) * 255);
-  const g = 0;
-  const b = Math.round((valor / 100) * 255);
-
-  const cor = `rgb(${r}, ${g}, ${b})`;
-  pot.style.background = `linear-gradient(to right, ${cor} ${porcentagem}%, #ddd ${porcentagem}%)`;
+  const t = (valor - pot.min) / (pot.max - pot.min); // 0.0 a 1.0
+  const r = Math.round(255 * (1 - t));
+  const b = Math.round(255 * t);
+  pot.style.background = `linear-gradient(to right, rgb(${r},0,${b}) ${t * 100}%, #ddd ${t * 100}%)`;
 }
 
 let cx = 0, cy = 0, ultimo = 0;
@@ -34,16 +30,31 @@ function post(url, dados) {
     if (d.temperatura !== undefined) temp.textContent = d.temperatura;
     if (d.distanciaPx !== undefined) distancia.textContent = d.distanciaPx;
     if (d.temperatura !== undefined) kizaTempUpdate(d.temperatura);
+    if (d.temperatura !== undefined) atualizarFundoPanel(d.temperatura);
     if (d.distanciaPx !== undefined) kizaDistUpdate(d.distanciaPx);
   });
    
 
 }
 
+function atualizarFundoPanel(temperatura) {
+  let imagem;
+  if (temperatura < -40) {
+    imagem = "/static/img/aokiji.png";
+  } else if (temperatura > 40) {
+    imagem = "/static/img/akainu.png";
+  } else {
+    imagem = "/static/img/background.png";
+  }
+  imagePanel.src = imagem;
+}
+
 function buscarTemp() {
   fetch("/temperatura").then(r => r.json()).then(d => {
     temp.textContent = d.temperatura;
     pot.value = passo.textContent = d.passo;
+    atualizarCorBarra(parseInt(d.passo));
+    atualizarFundoPanel(d.temperatura);
   });
 }
 

@@ -6,9 +6,9 @@
   <link rel="stylesheet" href="/static/css/styles.css">
 </head>
 <body>
-<div class="page-wrapper">
-<div class="content">
-  <div class="container">
+<div class="pagina">
+<div class="conteudo">
+  <div class="bloco">
     <img id="sensor" src="/static/img/distancia.png" alt="Sensor">
     <div>
       <small>Distância do mouse ao sensor</small>
@@ -17,7 +17,7 @@
     <img id="sensorMovimento" src="/static/img/movimento.png" alt="Movimento">
   </div>
 
-  <div class="container">
+  <div class="bloco">
     <button id="subir">▲</button>
     <div>
       <div><img id="dht11" src="/static/img/dht11.png" alt="dht11"></div>
@@ -27,23 +27,24 @@
     <button id="descer">▼</button>
   </div>
 
-  <div class="container">
+  <div class="bloco">
 
     <div><img id="potimg" src="/static/img/pot.png" alt="potimg"></div>
     <div>Sensibilidade: <b id="passo">30</b>°</div>
     <input type="range" id="pot" min="1" max="100" value="30">
   </div>
 
-  <div class="container">
+  <div class="bloco">
     KizaLeds:
       <img id="kizaTemp" src="/static/img/kizarurgb.png" alt="KizaLedTemp">
       <img id="kizaDist" src="/static/img/kizaru.png" alt="KizaLedDist">
       <img id="kizaMov" src="/static/img/kizaru.png" alt="KizaLedMov">
   </div>
 
-  <script src="/static/js/scripts.js"></script>
 </div>
-<div class="image-panel"></div>
+<div class="painel-imagem"><img id="fundoPanel" src="/static/img/background.png" alt="Fundo"></div>
 </div>
+
+<script src="/static/js/scripts.js"></script>
 </body>
 </html>
